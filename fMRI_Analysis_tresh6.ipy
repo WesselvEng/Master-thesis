@@ -1,0 +1,107 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Dec 13 15:12:12 2023
+Last edited on 08-01-2024
+
+@author: Wessel
+"""
+
+%cd C:\Users\Wessel\Documents\Studie\master\Internship\Thesis\Data_analysis\fMRI_analysis
+
+%matplotlib inline
+from nilearn import image
+from nilearn.input_data import MultiNiftiMasker
+import nibabel as nib
+import numpy as np
+import pandas as pd
+import os
+
+#%%
+#make the prior ICA Maps
+prior = image.load_img('C:\\Users\Wessel\\Documents\\Studie\\master\\Internship\\Thesis\\Data_analysis\\fMRI_analysis\\Template\\DSURQE_100micron_DRICA_zoom.nii.gz')
+prior_mask = image.math_img('img > 6', img=prior)
+prior_mask.to_filename('prior_resting_state_binary_zoom6.nii.gz')
+
+#%%
+#Split the binarized template ICA's in seperate files useing Nibabel
+
+#Define a split function
+def split_nii_along_time(input_path, output_folder):
+    # Load the NIfTI file
+    nii_img = nib.load(input_path)
+    # Get the data array and affine transformation matrix
+    data = nii_img.get_fdata()
+    affine = nii_img.affine
+    # Check if the input file has a time axis
+    if len(data.shape) < 4:
+        print("Error: The input file does not have a time axis.")
+        return
+    # Get the number of time points
+    num_timepoints = data.shape[3]
+    # Create the output folder if it doesn't exist
+    if not os.path.exists(output_folder):
+        os.makedirs('Prio_maps6_nib')
+    # Split along the time axis and save each time point as a new NIfTI file
+    for t in range(num_timepoints):
+        timepoint_data = data[:, :, :, t]
+        timepoint_nii = nib.Nifti1Image(timepoint_data, affine)
+        # Generate the output filename
+        output_filename = f"prior_resting_state_binary_zoom6_{-1+t+1}.nii"  #add a -1 to match python's starting point (zero)
+        output_filepath = os.path.join(output_folder, output_filename)
+        # Save the NIfTI file
+        nib.save(timepoint_nii, output_filepath)
+        print(f"Saved {output_filename}")
+        
+# Define functions variables
+input_path = 'prior_resting_state_binary_zoom6.nii.gz'
+output_folder= 'Prior_maps6_nib'
+split_nii_along_time(input_path, output_folder)
+
+#%%
+#retrieve list of ID in order of the folder
+ID = os.listdir('C:\\Users\\Wessel\\Documents\\Studie\\master\\Internship\\Thesis\\Data_analysis\\fMRI_analysis\\Data_All')
+
+#Slice characters before and after the subject number
+for i in range(len(ID)):
+    ID[i] = ID[i][11:17]
+
+#%%
+#### we still want to add mouse number to the csv file
+sigRVR_means = {}
+for a in range(len(ID)):
+    sigRVR_means[ID[a]] = []
+    
+#%%
+#create directions for the loop
+sub_dir = os.listdir('C:\\Users\\Wessel\\Documents\\Studie\\master\\Internship\\Thesis\\Data_analysis\\fMRI_analysis\\Data_All')
+
+#create a loop that makes a mask for each ICA template, 1 per loop
+for x in range(18):
+        masker= MultiNiftiMasker(mask_img=f'Prior_maps_nib\\prior_resting_state_binary_zoom6_{x}.nii')
+        masker.fit()
+    
+    
+    #Transform original data using the previously created mask. Returns a list containing an array for current subject with all transformed ICAs
+        for y in range(len(ID)):
+            sigRVR = masker.transform_imgs(f'Data_All\\{sub_dir[y]}') 
+            sigRVR_means[ID[y]].append(sigRVR[0][x].mean())              #add [0] to index first item in sigRVR, because it is a list, then [x] indexes 
+                                                                    #proper ICA within that array
+     
+#%%
+all_means = pd.DataFrame.from_dict(sigRVR_means)
+
+all_means.to_csv('DR_all_means_all_tresh6.csv', index=False)
+
+#%%
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
