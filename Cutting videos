@@ -1,4 +1,5 @@
-#To cut videos FFmpeg was used
+#To cut videos FFmpeg was used in a Linux-terminal
+
 #First convert audio information was converted to AAC to make it compatible with FFmpegs crop functions
 ffmpeg -i 161123_1431_R1.mp4 -c:v copy -c:a aac 161123_1431_R1_aac.mp4
 
