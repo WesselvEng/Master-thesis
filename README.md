@@ -13,15 +13,19 @@ These scripts I have used for the data analysis of my master thesis '...'
    Use to process raw DeepLabCut data (.h5 files) and get the total distance travelled, amount of time spent in centre and centre entries. For all parameters the      coordinates of the 'center'-bodypart were used. Inside the script there are comments that explains the code and the logic behind it.
    Python version==3.11
    
-5) RABIES_Analysis.sh
+4) RABIES_Analysis.sh
    This is the shell script that was used fed into the RABIES software process the functional MRI data in BIDS format
    Performed in Linux
 
-6) SPT_stat.py
+5) SPT_stat.py
   Used to process sugar preference test results. It uses the 'Dabest' estimation statistics python package. 
   Python version ==3.8
 
-7)fMRI_Analysis_tresh6.ipy
+6) OFT_stat.py
+   Used to process the data output from the OFT_analysis_final.py script. It used the 'Dabest' estimation statistics python package.
+   Python version ==3.8
+
+8) fMRI_Analysis_tresh6.ipy
   Used to process nifti files received after raw MRI data was processed with RABIES (--> RABIES.txt)
   Python version == 3.11
 
@@ -29,8 +33,6 @@ These scripts I have used for the data analysis of my master thesis '...'
 
 
 
-5) OFT_stat.py
-Used to process the data output from the OFT_analysis_final.py script. It used the 'Dabest' estimation statistics python package.
-Python version ==3.8
 
-6)
+
+
