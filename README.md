@@ -25,7 +25,7 @@ These scripts I have used for the data analysis of my master thesis '...'
    Used to process the data output from the OFT_analysis_final.py script. It used the 'Dabest' estimation statistics python package.
    Python version ==3.8
 
-**8) fMRI_Analysis_tresh6.ipy**
+**7) fMRI_Analysis_tresh6.ipy**
   Used to process nifti files received after raw MRI data was processed with RABIES (--> RABIES.txt)
   Python version == 3.11
 
