@@ -1,8 +1,17 @@
 # Master-thesis
 This repository contains the data and scripts that I have used for my master thesis '...'
 
+Dual_regression_data-Folder:
+contains dual regression data output from RABIES of all animals
+*note: In the processed data folder .xlxs files can be found what group each animal was assigned to.
+
+Processed Data-Folder:
+Contains all the processed data that was used as input for the estimation statistics python package 'Dabest' (version 2023.2.14) (! python==3.8)
+*note: These .xlsx files are produced from the raw .csv files that were the output of the scripts that are mentioned in the Scripts-Folder. Data from .csv files were imported tot .xlsx files and ordered such that they were compatible to be used as input for the Dabest package.
+
 Scripts-Folder:
 Contains all the scripts that have been used to process the data. For each script the input is described, the output is described as well as the program (and program version if relevant)
+
 **1) Cutting videos**
    This piece of code is used to cut the raw video files from the camera to 30 minute long files (45.000 frames) which were the input for the
    DeepLabCut analysis.
