@@ -1,6 +1,8 @@
 # Master-thesis
-These scripts I have used for the data analysis of my master thesis '...'
+This repository contains the data and scripts that I have used for my master thesis '...'
 
+Scripts-Folder:
+Contains all the scripts that have been used to process the data. For each script the input is described, the output is described as well as the program (and program version if relevant)
 **1) Cutting videos**
    This piece of code is used to cut the raw video files from the camera to 30 minute long files (45.000 frames) which were the input for the
    DeepLabCut analysis.
